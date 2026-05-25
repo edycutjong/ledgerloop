@@ -34,6 +34,39 @@ Over **1 billion unbanked people** globally rely on rotating savings circles (*t
 - 🔄 **Dynamic Rotation**: Trust scores automatically determine payout order — riskier members get later turns or require collateral
 - 📊 **On-Chain Credit History**: Completed cycles build portable, verifiable credit for unbanked users
 
+## 📸 Screenshots
+
+<details>
+<summary><strong>Click to expand all dashboard screenshots</strong></summary>
+
+### Nairobi Builders — SETTLED ✅
+> Completed 10/10 rounds with 2 members and a $20,000 pool. All contributions paid. The GNN Trust Scanner flagged wallet `0x71C2.9c22` as **WASH SYNDICATE / HIGH RISK** (trust score: 22, cyclic loop: 94%) — this member was automatically pushed to last rotation + 50% collateral.
+
+<img src="docs/screenshots/nairobi-builders.png" alt="Nairobi Builders — settled circle, 10/10 rounds complete" width="100%">
+
+---
+
+### Lagos Traders Pool — ACTIVE 🟢
+> 10-member circle at round 4/10 with $10,000 pool. Members sorted by trust score — Turn 10 is held by the flagged `0x71C2.9c22` wallet (trust: 22). Members with scores below 70 show red/amber trust bars. 3 members PAID, 7 UNPAID.
+
+<img src="docs/screenshots/lagos-traders-pool.png" alt="Lagos Traders Pool — active circle showing trust-sorted rotation" width="100%">
+
+---
+
+### Medellín Micro-Fund — ACTIVE 🟢
+> 5-member micro-savings circle at round 7/10. All 5 members have contributed ($350 each). Trust scores range from 71 to 96. Smart contract holds $5,000 escrow on Arbitrum Sepolia.
+
+<img src="docs/screenshots/medellin-micro-fund.png" alt="Medellín Micro-Fund — active circle, all members paid" width="100%">
+
+---
+
+### Pending Circle — PENDING ⏳
+> New circle with 1 member awaiting more participants. $1,000 pool target, $10/round. The pending member has a trust score of 70. Smart contract deployed but not yet active.
+
+<img src="docs/screenshots/pending-circle.png" alt="Pending Circle — awaiting members" width="100%">
+
+</details>
+
 ## 🏗️ Architecture & Tech Stack
 
 ```mermaid
