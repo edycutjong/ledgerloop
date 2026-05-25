@@ -95,6 +95,21 @@ export const MOCK_CIRCLES: SavingsCircle[] = [
       { id: "m17", address: "0xP9r5...2N62", label: "Brian K.", trustScore: 95, rotationTurn: 2, status: "paid", totalContributed: 2000 },
     ],
   },
+  {
+    id: "c4",
+    name: "Pending Circle",
+    contractAddress: "0xPending...Address",
+    creatorAddress: "0xPending...Creator",
+    poolSize: 1000,
+    contributionAmount: 10,
+    totalRounds: 10,
+    currentRound: 1,
+    status: "pending",
+    createdAt: "2026-05-20T10:00:00Z",
+    members: [
+      { id: "m18", address: "0xP1...Address", label: "Pending User", trustScore: 70, rotationTurn: 1, status: "pending", totalContributed: 0 },
+    ],
+  },
 ];
 
 export const MOCK_TRUST_ANALYSES: TrustAnalysis[] = [

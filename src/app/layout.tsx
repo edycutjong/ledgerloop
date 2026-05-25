@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "LedgerLoop — AI-Orchestrated Trustless Rotating Savings Circles",
     description:
       "Replace human organizers with on-chain escrow and GNN trust scoring.",
-    url: "https://devpost-uoe-ledgerloop.vercel.app",
+    url: "https://ledgerloop.edycu.dev",
     siteName: "LedgerLoop",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LedgerLoop" }],
     locale: "en_US",

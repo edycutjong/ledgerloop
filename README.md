@@ -70,7 +70,7 @@ npm run ci            # Full CI pipeline
 
 ## 📁 Project Structure
 ```
-devpost-uoe-ledgerloop/
+ledgerloop/
 ├── docs/              # README assets
 ├── src/
 │   ├── app/           # Next.js pages
