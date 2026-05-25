@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Home from '../page';
-import { MOCK_TRUST_ANALYSES } from '@/lib/mock-data';
+import { MOCK_CIRCLES, MOCK_TRUST_ANALYSES } from '@/lib/mock-data';
 
 describe('LedgerLoop Home Page', () => {
   it('renders dashboard with stats and headers', () => {
@@ -99,4 +99,17 @@ describe('LedgerLoop Home Page', () => {
     expect(screen.getByText(/LedgerLoop.*UOE Summer of Code 2026/i)).toBeInTheDocument();
     expect(screen.getByText(/Graph Neural Networks.*Solidity/i)).toBeInTheDocument();
   });
+
+  it('covers statusBadge fallback style when member status is unknown', () => {
+    const originalStatus = MOCK_CIRCLES[0].members[0].status;
+    MOCK_CIRCLES[0].members[0].status = 'unknown' as unknown as 'paid';
+
+    try {
+      render(<Home />);
+      expect(screen.getByText('Amina K.')).toBeInTheDocument();
+    } finally {
+      MOCK_CIRCLES[0].members[0].status = originalStatus;
+    }
+  });
 });
+
