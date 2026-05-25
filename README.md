@@ -54,8 +54,8 @@ Over **1 billion unbanked people** globally rely on rotating savings circles (*t
 
 ### Installation
 ```bash
-git clone https://github.com/edycutjong/devpost-uoe-ledgerloop.git
-cd devpost-uoe-ledgerloop
+git clone https://github.com/edycutjong/ledgerloop.git
+cd ledgerloop
 npm install
 cp .env.example .env.local
 npm run dev
