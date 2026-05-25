@@ -7,7 +7,7 @@
 
   [![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-06b6d4?style=for-the-badge)](https://ledgerloop.edycu.dev)
   [![Pitch Deck](https://img.shields.io/badge/📊_Pitch-Deck-10b981?style=for-the-badge)](https://ledgerloop.edycu.dev/pitch.html)
-  [![Pitch Video](https://img.shields.io/badge/🎬_Pitch-Video-ef4444?style=for-the-badge)](https://youtu.be/your-video)
+  [![Tests](https://img.shields.io/badge/✅_Tests-54_passing-22c55e?style=for-the-badge)](#-testing--ci)
   [![Built for UOE](https://img.shields.io/badge/UOE-Summer_of_Code_2026-8b5cf6?style=for-the-badge)](https://uoe-summer-of-code.devpost.com/)
 
   <br/>
@@ -18,7 +18,7 @@
   ![Tailwind](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=flat&logo=tailwindcss&logoColor=white)
   ![Solidity](https://img.shields.io/badge/Solidity-363636?style=flat&logo=solidity&logoColor=white)
   ![Python](https://img.shields.io/badge/Python_3.12-3776AB?style=flat&logo=python&logoColor=white)
-  [![CI](https://github.com/edycutjong/ledgerloop/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/ledgerloop/actions/workflows/ci.yml)
+  [![CI](https://github.com/edycutjong/devpost-uoe-ledgerloop/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/devpost-uoe-ledgerloop/actions/workflows/ci.yml)
 
 </div>
 
@@ -54,33 +54,43 @@ Over **1 billion unbanked people** globally rely on rotating savings circles (*t
 
 ### Installation
 ```bash
-git clone https://github.com/edycutjong/ledgerloop.git
-cd ledgerloop
+git clone https://github.com/edycutjong/devpost-uoe-ledgerloop.git
+cd devpost-uoe-ledgerloop
 npm install
 cp .env.example .env.local
 npm run dev
 ```
 
 ## 🧪 Testing & CI
+
+**54 passing tests** across 5 test suites — covering mock data integrity, component rendering, interactive state transitions, trust analysis branching, and data cross-validation.
+
 ```bash
+npm test              # Run all 54 tests
+npm run test:coverage # Coverage report
 npm run lint          # ESLint
 npm run typecheck     # TypeScript check
 npm run build         # Production build
-npm run ci            # Full CI pipeline
+npm run ci            # Full CI pipeline (lint + typecheck + test + build)
 ```
+
+CI runs on Node.js 20, 22, and 24 via GitHub Actions on every push.
 
 ## 📁 Project Structure
 ```
-ledgerloop/
+devpost-uoe-ledgerloop/
 ├── docs/              # README assets
 ├── src/
-│   ├── app/           # Next.js pages
-│   └── lib/           # Mock data & utilities
+│   ├── app/           # Next.js pages + __tests__/
+│   └── lib/           # Mock data & utilities + __tests__/
 ├── .github/           # CI workflows
 ├── .env.example       # Environment template
 ├── LICENSE            # MIT
 └── README.md          # You are here
 ```
+
+## Acknowledged Limitation
+**Cold-Start Trust**: Brand-new wallets with zero on-chain transaction history cannot receive a GNN trust score and are excluded from circle membership until they accumulate a minimum transaction graph.
 
 ## 📄 License
 [MIT](LICENSE) © 2026 Edy Cu
