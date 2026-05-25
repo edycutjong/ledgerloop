@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ledgerloop.edycu.dev"),
   title: "LedgerLoop — AI-Orchestrated Trustless Rotating Savings Circles",
   description:
     "AI-orchestrated rotating savings circles backed by Solidity smart contract escrows and dynamic Graph Neural Network credit-risk scoring.",
