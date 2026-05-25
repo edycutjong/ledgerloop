@@ -23,6 +23,7 @@ function riskColor(level: string) {
 function statusBadge(s: string) {
   if (s === "active") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
   if (s === "paid") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+  if (s === "unpaid") return "bg-red-500/20 text-red-300 border-red-500/30";
   if (s === "pending") return "bg-amber-500/20 text-amber-300 border-amber-500/30";
   if (s === "settled") return "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
   return "bg-slate-500/20 text-slate-300 border-slate-500/30";

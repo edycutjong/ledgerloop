@@ -36,6 +36,17 @@ Over **1 billion unbanked people** globally rely on rotating savings circles (*t
 
 ## 🏗️ Architecture & Tech Stack
 
+```mermaid
+graph TD
+    User([User Client]) <-->|Web3 via Wagmi/Viem| UI[Next.js 16 / React 19 Frontend]
+    UI <-->|Escrow Interactions| Contracts[Solidity Smart Contracts <br/> Arbitrum Sepolia]
+    UI <-->|API Calls / Realtime| Supabase[Supabase Database]
+    Contracts -->|Event Listeners| GNN[GNN AI Risk Engine <br/> Python / PyTorch / DGL]
+    GNN -->|Transaction Graphs| Explorer[Block Explorer / RPC]
+    GNN -->|Store Trust Scores| Supabase
+    Supabase -.->|GNN Scores| UI
+```
+
 | Layer | Technology |
 |---|---|
 | **Frontend** | Next.js 16 (App Router), React 19, Tailwind CSS v4 |
