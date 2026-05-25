@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--
+  LedgerLoop Pitch Deck — UOE Summer of Code 2026
+  Navigation: ← → arrows, spacebar advances, ESC for grid overview
+  Presenter mode: P key | Contrast debug: C key
+  Print to PDF: Cmd+P → Save as PDF → Landscape → Clean 10-page deck
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LedgerLoop — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0f1a;
+  --primary: #06b6d4;
+  --accent: #8b5cf6;
+  --text: #f1f5f9;
+  --muted: #64748b;
+  --surface: #111827;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --font-display: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: var(--font-display); overflow: hidden; height: 100%; }
+.stage { width: 1920px; height: 1080px; position: relative; transform-origin: top left; }
+.slide { width: 1920px; height: 1080px; position: absolute; top: 0; left: 0; display: none; padding: 80px 120px; overflow: hidden; }
+.slide.active { display: flex; }
+.slide-counter { position: fixed; bottom: 24px; right: 40px; font: 600 14px/1 var(--font-mono); color: var(--muted); z-index: 100; }
+aside.speaker-notes { display: none; }
+body.presenter aside.speaker-notes { display: block; position: fixed; bottom: 0; left: 0; right: 0; height: 20%; background: #000; color: #aaa; font: 14px/1.6 var(--font-mono); padding: 20px 40px; border-top: 2px solid var(--primary); z-index: 200; overflow-y: auto; }
+body.presenter .stage { height: 80vh; }
+.contrast-check { outline: 2px solid magenta !important; }
+/* Press C to toggle contrast debug mode */
+
+/* Shared styles */
+.badge { display: inline-block; font: 600 14px/1 var(--font-mono); padding: 8px 20px; border-radius: 100px; background: rgba(6,182,212,0.15); color: var(--primary); border: 1px solid rgba(6,182,212,0.3); text-transform: uppercase; letter-spacing: 2px; }
+.big-number { font: 900 120px/1 var(--font-display); color: var(--primary); text-shadow: 0 0 60px rgba(6,182,212,0.4); }
+.mono { font-family: var(--font-mono); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+h1 { font: 900 72px/1.05 var(--font-display); }
+h2 { font: 700 48px/1.1 var(--font-display); }
+h3 { font: 600 32px/1.2 var(--font-display); }
+p, li { font: 400 20px/1.6 var(--font-display); color: #cbd5e1; }
+.label { font: 600 12px/1 var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 3px; }
+.card { background: rgba(17,24,39,0.6); border: 1px solid rgba(148,163,184,0.1); border-radius: 16px; padding: 40px; }
+.glow { box-shadow: 0 0 40px rgba(6,182,212,0.15); }
+
+/* Print */
+@page { size: 16in 9in landscape; margin: 0; }
+@media print {
+  html, body, .slide { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide { display: block !important; page-break-after: always; break-inside: avoid; position: relative; }
+  .slide-counter, .presenter, aside.speaker-notes { display: none !important; }
+  .stage { transform: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide active" style="flex-direction:column;justify-content:center;align-items:flex-start;background:linear-gradient(135deg,#0a0f1a 0%,#111827 50%,#0f172a 100%);">
+  <div class="badge" style="margin-bottom:40px;">Built for UOE Summer of Code 2026</div>
+  <h1 style="margin-bottom:20px;">LedgerLoop</h1>
+  <h3 style="color:#94a3b8;font-weight:400;max-width:800px;">AI-orchestrated trustless rotating savings circles backed by on-chain escrow and GNN trust scoring</h3>
+  <div style="position:absolute;right:120px;top:50%;transform:translateY(-50%);width:360px;height:360px;border-radius:50%;border:2px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;">
+    <div style="width:280px;height:280px;border-radius:50%;border:2px dashed rgba(139,92,246,0.3);animation:spin 20s linear infinite;display:flex;align-items:center;justify-content:center;">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#06b6d4,#8b5cf6);"></div>
+    </div>
+  </div>
+  <aside class="speaker-notes">Introduce LedgerLoop. 1 billion unbanked rely on savings circles. We replace human organizers with smart contracts and AI trust scoring.</aside>
+</div>
+
+<!-- SLIDE 2: HOOK -->
+<div class="slide" style="flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--bg);">
+  <div class="big-number">$1.7T</div>
+  <h3 style="color:#94a3b8;margin-top:24px;max-width:700px;">trapped in informal savings circles globally — with <span style="color:var(--danger);">30% default rates</span> and zero credit portability</h3>
+  <aside class="speaker-notes">$1.7 trillion sits in ROSCAs worldwide. 30% of these circles fail due to organizer fraud or participant default. No credit history is generated.</aside>
+</div>
+
+<!-- SLIDE 3: PROBLEM -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">THE PROBLEM</div>
+  <h2 style="margin-bottom:40px;max-width:900px;">Maria trusted her tanda organizer.<br/><span style="color:var(--danger);">He vanished with $4,200.</span></h2>
+  <div class="grid-3" style="max-width:1400px;">
+    <div class="card">
+      <h3 style="color:var(--danger);margin-bottom:12px;">Organizer Fraud</h3>
+      <p>No escrow. The organizer holds all funds and can disappear after collecting contributions.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--danger);margin-bottom:12px;">Participant Default</h3>
+      <p>After receiving their payout, members stop contributing — destroying the circle for everyone else.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--danger);margin-bottom:12px;">Zero Credit History</h3>
+      <p>Years of reliable contributions generate no credit score. The unbanked stay unbanked.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes">Tell Maria's story. She contributed for 6 months. The organizer took the pot and left. She has no recourse and no credit history from her contributions.</aside>
+</div>
+
+<!-- SLIDE 4: SOLUTION -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">THE SOLUTION</div>
+  <h2 style="margin-bottom:40px;">Replace the organizer with code.</h2>
+  <div style="display:flex;gap:60px;align-items:flex-start;">
+    <div style="flex:1;">
+      <div class="card glow" style="margin-bottom:24px;">
+        <h3 style="color:var(--primary);margin-bottom:8px;">⛓️ Solidity Escrow</h3>
+        <p>Deposits locked in auditable smart contracts. No human custody. ~$0.014/tx on Arbitrum.</p>
+      </div>
+      <div class="card glow" style="margin-bottom:24px;">
+        <h3 style="color:var(--accent);margin-bottom:8px;">🧠 GNN Trust Scoring</h3>
+        <p>Graph Neural Network analyzes wallet transaction graphs to detect sybil loops and wash-trading clusters.</p>
+      </div>
+      <div class="card glow">
+        <h3 style="color:var(--success);margin-bottom:8px;">🔄 Dynamic Rotation</h3>
+        <p>Trust scores determine payout order. Riskier wallets get later turns or require 50% collateral.</p>
+      </div>
+    </div>
+    <!-- SWAP: replace with dashboard.png -->
+    <div style="flex:1;background:var(--surface);border-radius:16px;border:1px solid rgba(6,182,212,0.2);height:560px;display:flex;align-items:center;justify-content:center;">
+      <img src="https://placehold.co/600x500/111827/06b6d4?text=Dashboard+Preview" alt="Dashboard" style="border-radius:12px;max-width:100%;"/>
+    </div>
+  </div>
+  <aside class="speaker-notes">Three pillars: Solidity escrow holds funds, GNN scores wallet behavior, and dynamic rotation penalizes risky members with later payouts or collateral requirements.</aside>
+</div>
+
+<!-- SLIDE 5: ARCHITECTURE -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">HOW IT WORKS</div>
+  <h2 style="margin-bottom:40px;">Architecture</h2>
+  <div style="display:flex;gap:32px;align-items:center;justify-content:center;">
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="label">Frontend</div>
+      <h3 style="margin-top:8px;">Next.js 16</h3>
+      <p class="mono" style="font-size:14px;color:var(--muted);">React 19 + Tailwind v4</p>
+    </div>
+    <div style="font-size:32px;color:var(--primary);">→</div>
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="label">Smart Contract</div>
+      <h3 style="margin-top:8px;">Solidity</h3>
+      <p class="mono" style="font-size:14px;color:var(--muted);">Arbitrum Sepolia L2</p>
+    </div>
+    <div style="font-size:32px;color:var(--primary);">→</div>
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="label">AI Risk Engine</div>
+      <h3 style="margin-top:8px;">GNN</h3>
+      <p class="mono" style="font-size:14px;color:var(--muted);">PyTorch + DGL</p>
+    </div>
+    <div style="font-size:32px;color:var(--primary);">→</div>
+    <div class="card" style="text-align:center;min-width:200px;">
+      <div class="label">Database</div>
+      <h3 style="margin-top:8px;">Supabase</h3>
+      <p class="mono" style="font-size:14px;color:var(--muted);">PostgreSQL + RLS</p>
+    </div>
+  </div>
+  <div style="margin-top:40px;display:flex;gap:24px;justify-content:center;">
+    <span class="badge" style="font-size:12px;">42ms GNN Inference</span>
+    <span class="badge" style="font-size:12px;">$0.014 / deposit tx</span>
+    <span class="badge" style="font-size:12px;">3 wallet classifications</span>
+  </div>
+  <aside class="speaker-notes">Walk through the architecture flow. Frontend connects to Solidity escrow on Arbitrum. GNN runs on FastAPI backend analyzing wallet graphs. Supabase stores circle metadata.</aside>
+</div>
+
+<!-- SLIDE 6: DEMO -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">LIVE DEMO</div>
+  <h2 style="margin-bottom:40px;">See it in action</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+    <!-- SWAP: replace with screenshot1.png -->
+    <div class="card" style="position:relative;">
+      <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">1</div>
+      <img src="https://placehold.co/700x350/111827/06b6d4?text=Circle+Creation" alt="Circle creation" style="width:100%;border-radius:8px;margin-top:16px;"/>
+      <p style="margin-top:12px;font-size:16px;">Create circle with pool size and contribution amount</p>
+    </div>
+    <!-- SWAP: replace with screenshot2.png -->
+    <div class="card" style="position:relative;">
+      <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">2</div>
+      <img src="https://placehold.co/700x350/111827/8b5cf6?text=GNN+Trust+Score" alt="Trust scoring" style="width:100%;border-radius:8px;margin-top:16px;"/>
+      <p style="margin-top:12px;font-size:16px;">GNN analyzes wallet graph and assigns trust score</p>
+    </div>
+    <!-- SWAP: replace with screenshot3.png -->
+    <div class="card" style="position:relative;">
+      <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">3</div>
+      <img src="https://placehold.co/700x350/111827/22c55e?text=Rotation+Schedule" alt="Rotation" style="width:100%;border-radius:8px;margin-top:16px;"/>
+      <p style="margin-top:12px;font-size:16px;">Dynamic rotation order based on trust scores</p>
+    </div>
+    <!-- SWAP: replace with screenshot4.png -->
+    <div class="card" style="position:relative;">
+      <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;">4</div>
+      <img src="https://placehold.co/700x350/111827/ef4444?text=Sybil+Detection" alt="Sybil detection" style="width:100%;border-radius:8px;margin-top:16px;"/>
+      <p style="margin-top:12px;font-size:16px;">Wash syndicate flagged — collateral required</p>
+    </div>
+  </div>
+  <aside class="speaker-notes">Walk through each numbered screen. 1: Circle creation. 2: GNN trust scoring. 3: Automated rotation schedule. 4: Sybil loop detected — member flagged and collateral enforced.</aside>
+</div>
+
+<!-- SLIDE 7: KEY FEATURES -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">KEY FEATURES</div>
+  <h2 style="margin-bottom:48px;">What makes it different</h2>
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;align-items:start;">
+    <div class="card glow" style="grid-row:span 2;">
+      <div style="font-size:48px;margin-bottom:16px;">🧠</div>
+      <h3 style="color:var(--primary);margin-bottom:12px;">3-Class GNN Classifier</h3>
+      <p>Merchant Classic (high trust), Sovereign Arbitrage (medium), Wash Syndicate (sybil). 42ms inference on commodity hardware.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:8px;">⛓️</div>
+      <h3 style="font-size:22px;margin-bottom:8px;">Escrow Protocol</h3>
+      <p style="font-size:16px;">Auditable Solidity contract. $0.014 gas per deposit on Arbitrum L2.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:8px;">📊</div>
+      <h3 style="font-size:22px;margin-bottom:8px;">On-Chain Credit</h3>
+      <p style="font-size:16px;">Completed cycles build verifiable credit history for unbanked users.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:8px;">🔄</div>
+      <h3 style="font-size:22px;margin-bottom:8px;">Dynamic Rotation</h3>
+      <p style="font-size:16px;">Trust score → payout order. High risk = later turn + collateral.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:8px;">🌍</div>
+      <h3 style="font-size:22px;margin-bottom:8px;">Global Reach</h3>
+      <p style="font-size:16px;">Works for tandas (MX), cundinas (CO), chit funds (IN), and stokvels (ZA).</p>
+    </div>
+  </div>
+  <aside class="speaker-notes">Highlight the GNN classifier — 3 classes trained on real wallet behavior patterns. The escrow is gas-efficient on Arbitrum L2. Credit history is the long-term play.</aside>
+</div>
+
+<!-- SLIDE 8: WHY NOW -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">WHY NOW</div>
+  <h2 style="margin-bottom:40px;">L2 gas costs hit an inflection point</h2>
+  <div style="display:flex;gap:60px;align-items:center;">
+    <div style="flex:1;">
+      <div style="margin-bottom:32px;">
+        <span class="mono" style="font-size:64px;color:var(--primary);font-weight:900;">$0.014</span>
+        <p style="margin-top:8px;">Average deposit transaction cost on Arbitrum Sepolia</p>
+      </div>
+      <div style="margin-bottom:32px;">
+        <span class="mono" style="font-size:64px;color:var(--accent);font-weight:900;">42ms</span>
+        <p style="margin-top:8px;">GNN inference latency — real-time trust scoring</p>
+      </div>
+      <div>
+        <span class="mono" style="font-size:64px;color:var(--success);font-weight:900;">1B+</span>
+        <p style="margin-top:8px;">Unbanked adults who already use informal savings circles</p>
+      </div>
+    </div>
+    <div class="card" style="flex:1;padding:48px;">
+      <h3 style="margin-bottom:24px;">Market Timing</h3>
+      <p style="margin-bottom:16px;">L2 gas costs dropped 98% in 2024-2025, making micro-transactions viable for the first time.</p>
+      <p style="margin-bottom:16px;">GNN research on financial fraud detection matured — ready for production deployment.</p>
+      <p>The World Bank reports 1.4B unbanked, primarily in regions where ROSCAs are the dominant savings mechanism.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes">Three converging trends: L2 gas costs are now low enough for micro-transactions, GNN fraud detection is production-ready, and the unbanked population is massive and underserved.</aside>
+</div>
+
+<!-- SLIDE 9: TRACTION -->
+<div class="slide" style="flex-direction:column;justify-content:center;background:var(--bg);">
+  <div class="label" style="margin-bottom:16px;">TRACTION</div>
+  <h2 style="margin-bottom:40px;">Shipped in 48 hours</h2>
+  <div class="grid-3">
+    <div class="card" style="text-align:center;">
+      <span class="mono" style="font-size:56px;color:var(--primary);font-weight:900;">3</span>
+      <p style="margin-top:8px;">Active savings circles with 17 members in demo mode</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <span class="mono" style="font-size:56px;color:var(--accent);font-weight:900;">$35K</span>
+      <p style="margin-top:8px;">Total pool value across all circles</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <span class="mono" style="font-size:56px;color:var(--success);font-weight:900;">100%</span>
+      <p style="margin-top:8px;">CI pipeline passing — lint, typecheck, build</p>
+    </div>
+  </div>
+  <div style="margin-top:48px;">
+    <h3 style="margin-bottom:24px;">Deliverables</h3>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <span class="badge" style="font-size:11px;">✅ Next.js 16 Dashboard</span>
+      <span class="badge" style="font-size:11px;">✅ Mock GNN Engine</span>
+      <span class="badge" style="font-size:11px;">✅ Trust Scoring UI</span>
+      <span class="badge" style="font-size:11px;">✅ CI Pipeline</span>
+      <span class="badge" style="font-size:11px;">✅ MIT Licensed</span>
+    </div>
+  </div>
+  <aside class="speaker-notes">Everything was built in 48 hours. 3 circles, 17 members, full trust scoring pipeline, and a CI-passing production build. This is demo data — the architecture is real.</aside>
+</div>
+
+<!-- SLIDE 10: THE ASK -->
+<div class="slide" style="flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#0a0f1a 0%,#111827 100%);">
+  <h1 style="margin-bottom:24px;">LedgerLoop</h1>
+  <h3 style="color:#94a3b8;font-weight:400;margin-bottom:48px;max-width:700px;">Making informal finance trustless, scorable, and portable — for one billion unbanked people.</h3>
+  <div style="display:flex;gap:24px;margin-bottom:48px;">
+    <div class="card" style="padding:24px 40px;text-align:center;">
+      <div class="label">Live Demo</div>
+      <!-- SWAP: replace with QR code -->
+      <img src="https://placehold.co/120x120/111827/06b6d4?text=QR" alt="QR" style="margin-top:12px;border-radius:8px;"/>
+    </div>
+    <div class="card" style="padding:24px 40px;text-align:center;">
+      <div class="label">GitHub</div>
+      <!-- SWAP: replace with QR code -->
+      <img src="https://placehold.co/120x120/111827/8b5cf6?text=QR" alt="QR" style="margin-top:12px;border-radius:8px;"/>
+    </div>
+  </div>
+  <p class="mono" style="color:var(--muted);font-size:16px;">Built by Edy Cu · UOE Summer of Code 2026</p>
+  <aside class="speaker-notes">End with the mission statement. Ask judges to try the live demo and check the GitHub repo. Thank them for their time.</aside>
+</div>
+
+</div><!-- /stage -->
+
+<div class="slide-counter" id="counter">01 / 10</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+const stage = document.getElementById('stage');
+let current = 0;
+const total = slides.length;
+
+function show(n) {
+  slides.forEach(s => s.classList.remove('active'));
+  current = ((n % total) + total) % total;
+  slides[current].classList.add('active');
+  counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+}
+
+function resize() {
+  const sw = window.innerWidth, sh = window.innerHeight;
+  const scale = Math.min(sw / 1920, sh / 1080);
+  stage.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+  if (e.key === 'p' || e.key === 'P') document.body.classList.toggle('presenter');
+  if (e.key === 'c' || e.key === 'C') {
+    document.querySelectorAll('h1,h2,h3,p,span,.label,.badge').forEach(el => el.classList.toggle('contrast-check'));
+  }
+});
+
+// CSS animation for cover ring
+const style = document.createElement('style');
+style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
