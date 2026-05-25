@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="public/icon.svg" alt="LedgerLoop icon" width="120" height="120">
   <h1>LedgerLoop 🔄</h1>
   <p><em>AI-orchestrated trustless rotating savings circles backed by on-chain escrow and Graph Neural Network credit-risk scoring</em></p>
   <img src="docs/readme-hero.png" alt="LedgerLoop" width="100%">
