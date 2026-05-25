@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  MOCK_CIRCLES,
-  MOCK_TRUST_ANALYSES,
-  STATS,
   type SavingsCircle,
   type TrustAnalysis,
 } from "@/lib/mock-data";
+import { getCircles, getTrustAnalyses, computeStats, type Stats } from "@/lib/data";
 
 /* ── Utility helpers ── */
 function cn(...classes: (string | false | undefined)[]) {
@@ -267,12 +265,47 @@ function MemberTable({ circle }: { circle: SavingsCircle }) {
   );
 }
 
+/* ── Loading Skeleton ── */
+function LoadingSkeleton() {
+  return (
+    <div className="flex flex-col min-h-screen items-center justify-center gap-4">
+      <div className="w-8 h-8 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs font-mono text-[var(--text-low)] animate-pulse">
+        Loading from Supabase...
+      </span>
+    </div>
+  );
+}
+
 /* ── Main Dashboard Page ── */
 export default function Home() {
-  const [selectedCircle, setSelectedCircle] = useState<SavingsCircle>(MOCK_CIRCLES[0]);
-  const [selectedAnalysis, setSelectedAnalysis] = useState<TrustAnalysis>(
-    MOCK_TRUST_ANALYSES[1]
-  );
+  const [circles, setCircles] = useState<SavingsCircle[]>([]);
+  const [trustAnalyses, setTrustAnalyses] = useState<TrustAnalysis[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [selectedCircle, setSelectedCircle] = useState<SavingsCircle | null>(null);
+  const [selectedAnalysis, setSelectedAnalysis] = useState<TrustAnalysis | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const [circlesData, trustData] = await Promise.all([
+        getCircles(),
+        getTrustAnalyses(),
+      ]);
+      setCircles(circlesData);
+      setTrustAnalyses(trustData);
+      setStats(computeStats(circlesData));
+      if (circlesData.length > 0) setSelectedCircle(circlesData[0]);
+      if (trustData.length > 1) setSelectedAnalysis(trustData[1]);
+      else if (trustData.length > 0) setSelectedAnalysis(trustData[0]);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (loading || !selectedCircle || !selectedAnalysis || !stats) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -296,20 +329,20 @@ export default function Home() {
           </div>
           <div className="h-4 w-px bg-[var(--border)]" />
           <span className="text-xs font-mono text-[var(--text-low)]">
-            Gas: ~${STATS.avgGasCost}
+            Gas: ~${stats.avgGasCost}
           </span>
         </div>
       </header>
 
       {/* ── Stat Banner ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 p-6">
-        <StatCard label="Total Pool Value" value={`$${STATS.totalPoolValue.toLocaleString()}`} accent />
-        <StatCard label="Active Circles" value={String(STATS.activeCircles)} />
-        <StatCard label="Settled Circles" value={String(STATS.settledCircles)} />
-        <StatCard label="Total Members" value={String(STATS.totalMembers)} />
-        <StatCard label="Avg Trust Score" value={String(STATS.avgTrustScore)} sub="/ 100" />
-        <StatCard label="Avg Gas Cost" value={`$${STATS.avgGasCost}`} sub="per deposit" />
-        <StatCard label="GNN Latency" value={`${STATS.gnnLatencyMs}ms`} sub="p95" />
+        <StatCard label="Total Pool Value" value={`$${stats.totalPoolValue.toLocaleString()}`} accent />
+        <StatCard label="Active Circles" value={String(stats.activeCircles)} />
+        <StatCard label="Settled Circles" value={String(stats.settledCircles)} />
+        <StatCard label="Total Members" value={String(stats.totalMembers)} />
+        <StatCard label="Avg Trust Score" value={String(stats.avgTrustScore)} sub="/ 100" />
+        <StatCard label="Avg Gas Cost" value={`$${stats.avgGasCost}`} sub="per deposit" />
+        <StatCard label="GNN Latency" value={`${stats.gnnLatencyMs}ms`} sub="p95" />
       </div>
 
       {/* ── Main Content ── */}
@@ -321,10 +354,10 @@ export default function Home() {
               Savings Circles
             </h2>
             <span className="text-[10px] font-mono text-[var(--text-low)]">
-              {MOCK_CIRCLES.length} total
+              {circles.length} total
             </span>
           </div>
-          {MOCK_CIRCLES.map((c) => (
+          {circles.map((c) => (
             <CircleCard
               key={c.id}
               circle={c}
@@ -344,7 +377,7 @@ export default function Home() {
               GNN Trust Scanner — Select Wallet
             </h3>
             <div className="flex gap-2 flex-wrap">
-              {MOCK_TRUST_ANALYSES.map((a) => (
+              {trustAnalyses.map((a) => (
                 <button
                   key={a.walletAddress}
                   onClick={() => setSelectedAnalysis(a)}
