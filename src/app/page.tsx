@@ -14,6 +14,11 @@ function cn(...classes: (string | false | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+function formatAddress(address: string) {
+  if (address.length <= 12) return address;
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+}
+
 function riskColor(level: string) {
   if (level === "low") return "text-emerald-400";
   if (level === "medium") return "text-amber-400";
@@ -127,7 +132,7 @@ function TrustPanel({ analysis }: { analysis: TrustAnalysis }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <span className="font-mono text-xs text-[var(--text-low)]">WALLET</span>
-          <p className="font-mono text-sm text-[var(--text-high)]">{analysis.walletAddress}</p>
+          <p className="font-mono text-sm text-[var(--text-high)]">{formatAddress(analysis.walletAddress)}</p>
         </div>
         <div className="text-right">
           <div
@@ -224,7 +229,7 @@ function MemberTable({ circle }: { circle: SavingsCircle }) {
                     {m.label}
                   </span>
                 </td>
-                <td className="px-5 py-2.5 text-[var(--text-mid)]">{m.address}</td>
+                <td className="px-5 py-2.5 text-[var(--text-mid)]">{formatAddress(m.address)}</td>
                 <td className="px-5 py-2.5">
                   <div className="flex items-center gap-2">
                     <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
@@ -350,7 +355,7 @@ export default function Home() {
                       : "border-[var(--border)] text-[var(--text-mid)] hover:border-[var(--text-mid)]"
                   )}
                 >
-                  {a.walletAddress}
+                  {formatAddress(a.walletAddress)}
                 </button>
               ))}
             </div>
@@ -372,7 +377,7 @@ export default function Home() {
             <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between">
                 <span className="text-[var(--text-low)]">ADDRESS</span>
-                <span className="text-[var(--text-high)]">{selectedCircle.contractAddress}</span>
+                <span className="text-[var(--text-high)]">{formatAddress(selectedCircle.contractAddress)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--text-low)]">NETWORK</span>

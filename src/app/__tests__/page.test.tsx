@@ -2,6 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Home from '../page';
 import { MOCK_CIRCLES, MOCK_TRUST_ANALYSES } from '@/lib/mock-data';
 
+function formatAddress(address: string) {
+  if (address.length <= 12) return address;
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+}
+
 describe('LedgerLoop Home Page', () => {
   it('renders dashboard with stats and headers', () => {
     render(<Home />);
@@ -34,10 +39,10 @@ describe('LedgerLoop Home Page', () => {
   it('handles selecting a different trust analysis wallet', () => {
     render(<Home />);
 
-    expect(screen.getAllByText(MOCK_TRUST_ANALYSES[1].walletAddress)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(formatAddress(MOCK_TRUST_ANALYSES[1].walletAddress))[0]).toBeInTheDocument();
     expect(screen.getByText(MOCK_TRUST_ANALYSES[1].recommendation)).toBeInTheDocument();
 
-    const walletButton = screen.getByRole('button', { name: MOCK_TRUST_ANALYSES[0].walletAddress });
+    const walletButton = screen.getByRole('button', { name: formatAddress(MOCK_TRUST_ANALYSES[0].walletAddress) });
     fireEvent.click(walletButton);
 
     expect(screen.getByText(MOCK_TRUST_ANALYSES[0].recommendation)).toBeInTheDocument();
@@ -62,7 +67,7 @@ describe('LedgerLoop Home Page', () => {
   it('covers the Sovereign Arbitrage trust analysis branch', () => {
     render(<Home />);
 
-    const walletButton = screen.getByRole('button', { name: MOCK_TRUST_ANALYSES[2].walletAddress });
+    const walletButton = screen.getByRole('button', { name: formatAddress(MOCK_TRUST_ANALYSES[2].walletAddress) });
     fireEvent.click(walletButton);
 
     expect(screen.getByText(MOCK_TRUST_ANALYSES[2].recommendation)).toBeInTheDocument();
@@ -89,7 +94,7 @@ describe('LedgerLoop Home Page', () => {
 
     expect(screen.getByText(/GNN Trust Scanner/i)).toBeInTheDocument();
     MOCK_TRUST_ANALYSES.forEach(a => {
-      expect(screen.getByRole('button', { name: a.walletAddress })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: formatAddress(a.walletAddress) })).toBeInTheDocument();
     });
   });
 
@@ -109,6 +114,18 @@ describe('LedgerLoop Home Page', () => {
       expect(screen.getByText('Amina K.')).toBeInTheDocument();
     } finally {
       MOCK_CIRCLES[0].members[0].status = originalStatus;
+    }
+  });
+
+  it('covers formatAddress fallback for short addresses', () => {
+    const originalAddress = MOCK_CIRCLES[0].contractAddress;
+    MOCK_CIRCLES[0].contractAddress = 'short';
+
+    try {
+      render(<Home />);
+      expect(screen.getByText('short')).toBeInTheDocument();
+    } finally {
+      MOCK_CIRCLES[0].contractAddress = originalAddress;
     }
   });
 });

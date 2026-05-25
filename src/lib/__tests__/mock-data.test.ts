@@ -109,7 +109,7 @@ describe('LedgerLoop Mock Data', () => {
     it('should export MOCK_TRUST_ANALYSES with correct properties', () => {
       expect(MOCK_TRUST_ANALYSES).toBeDefined();
       expect(MOCK_TRUST_ANALYSES.length).toBe(3);
-      expect(MOCK_TRUST_ANALYSES[0].walletAddress).toBe('0xA1c9...71B2');
+      expect(MOCK_TRUST_ANALYSES[0].walletAddress).toBe('0xA1c95358053702170381734891784910793771B2');
     });
 
     it('should include a Wash Syndicate with high cyclic loop score', () => {
