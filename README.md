@@ -18,7 +18,7 @@
   ![Tailwind](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=flat&logo=tailwindcss&logoColor=white)
   ![Solidity](https://img.shields.io/badge/Solidity-363636?style=flat&logo=solidity&logoColor=white)
   ![Python](https://img.shields.io/badge/Python_3.12-3776AB?style=flat&logo=python&logoColor=white)
-  [![CI](https://github.com/edycutjong/devpost-uoe-ledgerloop/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/devpost-uoe-ledgerloop/actions/workflows/ci.yml)
+  [![CI](https://github.com/edycutjong/ledgerloop/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/ledgerloop/actions/workflows/ci.yml)
 
 </div>
 
