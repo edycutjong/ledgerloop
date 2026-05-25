@@ -78,7 +78,7 @@ CI runs on Node.js 20, 22, and 24 via GitHub Actions on every push.
 
 ## 📁 Project Structure
 ```
-devpost-uoe-ledgerloop/
+ledgerloop/
 ├── docs/              # README assets
 ├── src/
 │   ├── app/           # Next.js pages + __tests__/
