@@ -3,7 +3,6 @@ import RootLayout, { metadata } from '../layout';
 
 describe('RootLayout', () => {
   it('should render layout children successfully', () => {
-    // Suppress console.error "In HTML, <html> cannot be a child of <div>."
     const originalError = console.error;
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation((...args) => {
       const msg = args.map(String).join(' ');
@@ -21,9 +20,19 @@ describe('RootLayout', () => {
     consoleSpy.mockRestore();
   });
 
-  it('should export valid metadata', () => {
+  it('should export valid metadata with correct title and description', () => {
     expect(metadata).toBeDefined();
     expect(metadata.title).toContain('LedgerLoop');
     expect(metadata.description).toContain('savings circles');
+  });
+
+  it('should have OpenGraph metadata with correct site identity', () => {
+    expect(metadata.openGraph).toBeDefined();
+    expect(metadata.openGraph?.siteName).toBe('LedgerLoop');
+    expect(metadata.openGraph?.url).toContain('ledgerloop');
+  });
+
+  it('should have Twitter card metadata defined', () => {
+    expect(metadata.twitter).toBeDefined();
   });
 });
