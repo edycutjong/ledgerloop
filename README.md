@@ -55,6 +55,56 @@ graph TD
 | **Database** | Supabase (PostgreSQL) |
 | **Web3** | viem, wagmi |
 
+## 🗄️ Database Schema
+
+Data is persisted in **Supabase (PostgreSQL)** with Row-Level Security enabled. All tables use the `ll_` prefix to namespace within the shared Supabase instance.
+
+```mermaid
+erDiagram
+    ll_circles ||--o{ ll_members : "has"
+    ll_circles {
+        text id PK
+        text name
+        varchar contract_address
+        varchar creator_address
+        numeric pool_size
+        numeric contribution_amount
+        int total_rounds
+        int current_round
+        varchar status
+        timestamptz created_at
+    }
+    ll_members {
+        text id PK
+        text circle_id FK
+        varchar address
+        text label
+        int trust_score
+        int rotation_turn
+        varchar status
+        numeric total_contributed
+    }
+    ll_trust_analyses {
+        serial id PK
+        varchar wallet_address
+        int trust_score
+        text classification
+        varchar risk_level
+        int transaction_count
+        int unique_counterparties
+        numeric cyclic_loop_score
+        text recommendation
+    }
+```
+
+| Table | Purpose | Rows |
+|---|---|---|
+| `ll_circles` | Savings circle configuration — pool size, round progress, contract address | 4 |
+| `ll_members` | Circle participants — wallet, trust score, rotation slot, contribution status | 18 |
+| `ll_trust_analyses` | GNN trust analysis results — risk classification, cyclic loop detection | 3 |
+
+> **RLS Policy**: Anonymous read access enabled on all tables. Write operations require `service_role` key.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
