@@ -21,6 +21,7 @@ function riskColor(level: string) {
 }
 
 function statusBadge(s: string) {
+  if (s === "active") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
   if (s === "paid") return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
   if (s === "pending") return "bg-amber-500/20 text-amber-300 border-amber-500/30";
   if (s === "settled") return "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
@@ -272,11 +273,8 @@ export default function Home() {
       {/* ── Header ── */}
       <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface)]/50 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
-            </svg>
+          <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+            <img src="/icon.svg" alt="LedgerLoop" className="w-full h-full" />
           </div>
           <h1 className="text-lg font-bold tracking-tight text-[var(--text-high)]">
             LedgerLoop
