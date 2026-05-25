@@ -186,6 +186,22 @@ ledgerloop/
 ## Acknowledged Limitation
 **Cold-Start Trust**: Brand-new wallets with zero on-chain transaction history cannot receive a GNN trust score and are excluded from circle membership until they accumulate a minimum transaction graph.
 
+## 🔨 Built With
+
+- [Next.js 16](https://nextjs.org/) — App Router, React Server Components
+- [React 19](https://react.dev/) — UI framework
+- [TypeScript](https://www.typescriptlang.org/) — Type-safe JavaScript
+- [Tailwind CSS v4](https://tailwindcss.com/) — Utility-first styling
+- [Supabase](https://supabase.com/) — PostgreSQL database with Realtime + RLS
+- [Solidity](https://soliditylang.org/) — Smart contract escrow (Arbitrum Sepolia)
+- [Hardhat](https://hardhat.org/) — Smart contract development framework
+- [PyTorch](https://pytorch.org/) + [DGL](https://www.dgl.ai/) — Graph Neural Network trust scoring
+- [FastAPI](https://fastapi.tiangolo.com/) — Python backend for GNN inference
+- [viem](https://viem.sh/) + [wagmi](https://wagmi.sh/) — Web3 client libraries
+- [Jest](https://jestjs.io/) — Testing framework (54 passing tests)
+- [GitHub Actions](https://github.com/features/actions) — CI/CD pipeline
+- [Vercel](https://vercel.com/) — Frontend deployment
+
 ## 📄 License
 [MIT](LICENSE) © 2026 Edy Cu
 
