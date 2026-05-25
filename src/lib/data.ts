@@ -8,7 +8,6 @@ export async function getCircles(): Promise<SavingsCircle[]> {
     .order("created_at", { ascending: true });
 
   if (cErr || !circles) {
-    console.error("Failed to fetch circles:", cErr);
     return [];
   }
 
@@ -18,7 +17,6 @@ export async function getCircles(): Promise<SavingsCircle[]> {
     .order("rotation_turn", { ascending: true });
 
   if (mErr || !members) {
-    console.error("Failed to fetch members:", mErr);
     return [];
   }
 
@@ -58,7 +56,6 @@ export async function getTrustAnalyses(): Promise<TrustAnalysis[]> {
     .select("*");
 
   if (error || !data) {
-    console.error("Failed to fetch trust analyses:", error);
     return [];
   }
 
