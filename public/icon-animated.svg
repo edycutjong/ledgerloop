@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Brand Gradient -->
+    <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/> <!-- Cyan -->
+      <stop offset="100%" stop-color="#10B981"/> <!-- Emerald -->
+    </linearGradient>
+
+    <!-- Inner Glow/Shadow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Node Glow Filter -->
+    <filter id="node-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      @keyframes rotate-wheel {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pulse-lock {
+        0%, 100% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6)); }
+      }
+      @keyframes glow-node {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+      .animated-wheel {
+        animation: rotate-wheel 20s infinite linear;
+        transform-origin: 256px 256px;
+      }
+      .animated-lock {
+        animation: pulse-lock 3s infinite ease-in-out;
+        transform-origin: 256px 256px;
+      }
+      .animated-node-cyan {
+        animation: glow-node 2s infinite ease-in-out;
+      }
+      .animated-node-emerald {
+        animation: glow-node 2s infinite ease-in-out 1s;
+      }
+    </style>
+  </defs>
+
+  <!-- Background Plate -->
+  <rect width="512" height="512" rx="128" fill="#080a0f" stroke="rgba(255, 255, 255, 0.04)" stroke-width="6"/>
+  <circle cx="256" cy="256" r="230" fill="none" stroke="rgba(6, 182, 212, 0.03)" stroke-width="2" stroke-dasharray="10 8"/>
+
+  <!-- Rotating Tanda Wheel (Dashed for rotation steps) -->
+  <circle 
+    cx="256" 
+    cy="256" 
+    r="170" 
+    fill="none" 
+    stroke="url(#brand-grad)" 
+    stroke-width="24" 
+    stroke-linecap="round"
+    stroke-dasharray="160 40 160 40"
+    filter="url(#glow)"
+    class="animated-wheel"
+  />
+
+  <!-- Inner Concentric Support Ring -->
+  <circle 
+    cx="256" 
+    cy="256" 
+    r="120" 
+    fill="none" 
+    stroke="rgba(255, 255, 255, 0.05)" 
+    stroke-width="6" 
+    stroke-dasharray="10 15"
+  />
+
+  <!-- Central Escrow Vault Lock Symbol (Geometric) -->
+  <polygon 
+    points="256,180 320,244 320,312 192,312 192,244" 
+    fill="rgba(11, 15, 25, 0.8)" 
+    stroke="url(#brand-grad)" 
+    stroke-width="12" 
+    stroke-linejoin="round"
+    filter="url(#glow)"
+    class="animated-lock"
+  />
+  <circle cx="256" cy="246" r="16" fill="#06B6D4" filter="url(#node-glow)" class="animated-lock" />
+
+  <!-- Outer Participant Connection Nodes (glowing points) -->
+  <circle cx="256" cy="86" r="12" fill="#10B981" filter="url(#node-glow)" class="animated-node-emerald" />
+  <circle cx="256" cy="426" r="12" fill="#10B981" filter="url(#node-glow)" class="animated-node-emerald" />
+  <circle cx="86" cy="256" r="12" fill="#06B6D4" filter="url(#node-glow)" class="animated-node-cyan" />
+  <circle cx="426" cy="256" r="12" fill="#06B6D4" filter="url(#node-glow)" class="animated-node-cyan" />
+</svg>
